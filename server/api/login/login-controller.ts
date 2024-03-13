@@ -7,17 +7,16 @@ const ObjectId = Mongoose.Types.ObjectId;
 export const loginAdminAccount = async (req: any, res: any) => {
     try {
         const admin: any = req.body
-        console.log('admin: ', admin);
         let cred = {
-            email: 'admin@gmail.com',
+            userName: 'admin',
             password: 'admin'
         }
         if (admin.role === "admin") {
-            if (admin.email === cred.email && admin.password === cred.password) {
+            if (admin.userName === cred.userName && admin.password === cred.password) {
                 res.status(200).json({
                     status: 'success',
                     message: 'Account login successfully',
-                    data: { email: 'admin@gmail.com', role: 'admin' }
+                    data: { userName: 'admin', role: 'admin' }
                 })
             } else {
                 res.status({
@@ -28,13 +27,13 @@ export const loginAdminAccount = async (req: any, res: any) => {
 
             }
         } else {
-            const { email,password } = req.body;
-            const record = await Supervisors.findOne({ email,password });
+            const { userName,password } = req.body;
+            const record = await Supervisors.findOne({ userName,password });
             if(record){
                 res.status(200).json({
                     status: 'success',
                     message: 'Account login successfully',
-                    data: { email: record.email, role: 'supervisor' }
+                    data: { userName: record.userName, role: 'supervisor' }
                 })
             } else {
                     res.status({
